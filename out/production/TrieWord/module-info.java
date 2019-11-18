@@ -1,0 +1,3 @@
+module TrieWord {
+    requires jdkAnnotations;
+}
