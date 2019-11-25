@@ -1,7 +1,10 @@
 package br.ufrn.imd.rita_lino.main;
 
 
+import br.ufrn.imd.rita_lino.tree.TrieTree;
 import br.ufrn.imd.rita_lino.util.ManipulationFile;
+
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,7 +19,11 @@ public class Main {
             countWord = -1;
         }
 
+
         ManipulationFile file = new ManipulationFile(pathFileWords);
-        Had
+
+        TrieTree tree = new TrieTree();
+        ArrayList<String> words = file.readWords();
+       tree.insertList(words);
     }
 }
