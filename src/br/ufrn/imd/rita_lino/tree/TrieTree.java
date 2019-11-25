@@ -7,6 +7,10 @@ public class TrieTree {
     private TrieNode root =  null;
     static final int ALPHABET_SIZE = 127; //padrão ascii
 
+    public TrieNode getRoot() {
+        return root;
+    }
+
     public TrieTree(){
         root = new TrieNode();
     }
@@ -17,30 +21,33 @@ public class TrieTree {
 
     private Boolean insertRoot(String word){
         Character letter = word.charAt(0);
-
-        TrieNode child = this.root.searchChild(letter); //verifica se há um filho
-
-        if (child == null){
-            child = new TrieNode();
-            this.root.addChild(child);
-        }
-
+        word = word.substring(1, word.length());
+        TrieNode child = this.root.addChild(new TrieNode(letter));
         return child.insert(word);
     }
 
 
     public Boolean removeWord(String word){
-        return null;
+        //TODO método de remoção
+        if (existWord(word)){
+            return true;
+        }else{
+            return true;
+        }
     }
 
     public Boolean existWord(String word){
-        return null;
+        return this.root.existWord(word);
     }
 
     //fixme retornar estrutura mais adequada
     public ArrayList<String> suggestWord(String prefix){
+        //TODO autocompletar
         ArrayList<String> words = new ArrayList<>();
         words.clear();
+
+
+
 
         return words;
     }
@@ -48,7 +55,6 @@ public class TrieTree {
 
     public void insertList(List<String> words){
         for(String word: words){
-            System.out.println(word);
             this.insertWord(word);
         }
     }

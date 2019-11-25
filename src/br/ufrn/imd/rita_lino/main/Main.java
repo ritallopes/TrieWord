@@ -1,6 +1,7 @@
 package br.ufrn.imd.rita_lino.main;
 
 
+import br.ufrn.imd.rita_lino.tree.TrieNode;
 import br.ufrn.imd.rita_lino.tree.TrieTree;
 import br.ufrn.imd.rita_lino.util.ManipulationFile;
 
@@ -24,6 +25,20 @@ public class Main {
 
         TrieTree tree = new TrieTree();
         ArrayList<String> words = file.readWords();
-       tree.insertList(words);
+        tree.insertList(words);
+
+
+        for (String word: tree.suggestWord(prefix)) {
+            System.out.println(word);
+        }
+
+//        for (TrieNode node: tree.getRoot().getChildren().get(2).getChildren()
+//             ) {
+//
+//            System.out.println(node.getValue());
+//            System.out.println(node.isWord());
+//
+//        }
+
     }
 }

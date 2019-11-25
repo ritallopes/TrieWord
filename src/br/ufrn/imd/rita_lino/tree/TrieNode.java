@@ -27,43 +27,29 @@ public class TrieNode {
     }
     public Character getValue(){ return this.value;}
     public ArrayList<TrieNode> getChildren() { return children; }
+    public Boolean hasChildren(){return this.children.isEmpty(); }
 
 
     public Boolean insert(String word) {
-        System.out.println(word);
-
-        //nó folha: caso base
-        if (word.length() <= 1){
-            this.value = word.charAt(0);
+        if (word.length() == 0){//caso a palavra seja com apenas uma letra
             this.isWord = true;
             return true;
         }
-
-        //inserindo no nó atual, filho do root?
-        if (this.value == null){
-            this.value = word.charAt(0);
-            word = word.substring(1, word.length()-1);
+        Character letter = word.charAt(0);
+        TrieNode child = this.addChild(new TrieNode(letter));
+        if (word.length() == 1){
+            child.setIsWord(true);
+            return true;
+        }else{
+            word = word.substring(1, word.length());
+            return child.insert(word);
         }
-
-
-
-        Character letter = word.charAt(0);//pega a letra que corresponde ao nó que estamos procurando
-        TrieNode child = searchChild(letter); //verifica se há um filho
-        if (child == null){//se não houve um filho eu criarei
-            child = new TrieNode(letter);
-            children.add(child);
-        }
-
-        word = word.substring(1, word.length()-1);//reconfiguro minha palavra retirando a primeira letra, que foi inserido em meu filho
-
-        return child.insert(word);
     }
 
     public TrieNode searchChild(Character value){
         if (this.children.isEmpty()){
             return null;
         }
-
         for (TrieNode node: children) {
             if (node.getValue() == value){
                 return node;
@@ -72,9 +58,40 @@ public class TrieNode {
         return null;
     }
 
-    public void addChild(TrieNode child) {
-        this.children.add(child);
+    public TrieNode addChild(TrieNode child) {
+        if (searchChild(child.value) == null){
+            this.children.add(child);
+        }
+        return searchChild(child.value);
     }
+
+    public Boolean existWord(String word) {
+        Character letter = word.charAt(0);
+
+
+        TrieNode child = this.searchChild(letter);
+
+        if (child == null){
+            return false;
+        }else {
+            //caso base: ser a última letra, ser a letra que desejo e ser uma palavra
+            if (word.length() <= 1){
+                if (child.getValue().equals(letter)){
+                    if (child.isWord()){
+                        return true;
+                    }
+                }
+            }
+
+            if (word.length() > 1) {
+                word = word.substring(1,word.length());
+                return child.existWord(word);
+            }else{
+                return false;
+            }
+        }
+    }
+
 
     @Override
     public boolean equals(Object obj) {
@@ -83,6 +100,7 @@ public class TrieNode {
         }
         return (((TrieNode)obj).getValue() == ((TrieNode)obj).getValue()) && (((TrieNode)obj).getChildren() == ((TrieNode)obj).getChildren());
     }
+
 
 
 }
