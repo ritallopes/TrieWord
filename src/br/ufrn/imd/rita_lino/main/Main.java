@@ -26,18 +26,19 @@ public class Main {
         TrieTree tree = new TrieTree();
         ArrayList<String> words = file.readWords();
         tree.insertList(words);
-        for (TrieNode c: tree.getRoot().getChildren()) {
-            System.out.println(c.getValue()+" "+ c.isWord());
-        }
-
 
         System.out.println(tree.existWord("a"));
         System.out.println(tree.existWord("amar"));
         System.out.println(tree.existWord("ameixa"));
-        System.out.println(tree.removeWord("amar"));
+        System.out.println(tree.removeWord("ama"));
+        System.out.println(tree.existWord("ama"));
         System.out.println(tree.existWord("a"));
         System.out.println(tree.existWord("amar"));
         System.out.println(tree.existWord("ameixa"));
+
+
+
+        //tree.suggestWord(prefix);
 
 
 //        for (TrieNode node: tree.getRoot().getChildren().get(2).getChildren()

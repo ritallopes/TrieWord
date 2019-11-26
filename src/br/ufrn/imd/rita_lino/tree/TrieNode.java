@@ -1,21 +1,24 @@
 package br.ufrn.imd.rita_lino.tree;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.SortedSet;
 
 public class TrieNode {
     private Boolean isWord = false;
-    private ArrayList<TrieNode> children = new ArrayList<>(); //fixme ver qual estrutura de dados usar
+    private HashMap<Character, TrieNode> children;
     private Character value = null;
 
     public TrieNode(){
         this.isWord = false;
-        this.children.clear();
+        this.children = new HashMap<>();
         this.value = null;
     }
 
     public TrieNode(Character letter) {
+        this.isWord = false;
+        this.children = new HashMap<>();
         this.value = letter;
     }
 
@@ -26,7 +29,7 @@ public class TrieNode {
         this.isWord = isWord;
     }
     public Character getValue(){ return this.value;}
-    public ArrayList<TrieNode> getChildren() { return children; }
+    public HashMap<Character, TrieNode> getChildren() { return children; }
     public Boolean hasChildren(){return !(this.children.isEmpty()); }
 
     @Override
@@ -45,7 +48,7 @@ public class TrieNode {
             return true;
         }
         Character letter = word.charAt(0);
-        TrieNode child = this.addChild(new TrieNode(letter));
+        TrieNode child = this.addChild(letter);
         if (word.length() == 1){
             child.setIsWord(true);
             return true;
@@ -53,48 +56,34 @@ public class TrieNode {
             word = word.substring(1, word.length());
             return child.insert(word);
         }
+
     }
 
-    public TrieNode searchChild(Character value){
-        if (this.children.isEmpty()){
-            return null;
-        }
-        for (TrieNode node: children) {
-            if (node.getValue() == value){
-                return node;
-            }
-        }
-        return null;
-    }
 
-    public TrieNode addChild(TrieNode child) {
-        if (searchChild(child.value) == null){
-            this.children.add(child);
+    public TrieNode addChild(Character key) {
+        if (this.children.containsKey(key)){
+            return this.children.get(key);
         }
-        return searchChild(child.value);
+        this.children.put(key, new TrieNode(key));
+        return this.children.get(key);
     }
 
     public Boolean existWord(String word) {
         Character letter = word.charAt(0);
-        TrieNode child = this.searchChild(letter);
-
-        if (child == null){
+        if (!children.containsKey(letter)){
             return false;
         }else {
+            TrieNode child = children.get(letter);
             //caso base: ser a última letra, ser a letra que desejo e ser uma palavra
             if (word.length() <= 1){
-                if (child.getValue().equals(letter)){
-                    if (child.isWord()){
-                        return true;
-                    }
+                if (child.isWord()){
+                    return true;
+                }else{
+                    return false;
                 }
-            }
-
-            if (word.length() > 1) {
-                word = word.substring(1,word.length());
+            }else {
+                word = word.substring(1, word.length());
                 return child.existWord(word);
-            }else{
-                return false;
             }
         }
     }
@@ -103,7 +92,7 @@ public class TrieNode {
 
     public TrieNode searchNode(String word) {
         Character letter = word.charAt(0);
-        TrieNode child = this.searchChild(letter);
+        TrieNode child = children.get(letter);
 
         if (child == null){
             return null;
@@ -125,24 +114,26 @@ public class TrieNode {
     }
 
     public boolean removeWord(String word) {
-        System.out.println(word);
-        if (word.length() <=1){//caso base
-            TrieNode child = searchChild(word.charAt(0));
-            if (child.hasChildren()){
-                child.setIsWord(false);
-                return true;
-            }else{
-                this.children.remove(child);
-                for (TrieNode node: children
-                     ) {
-
-                    System.out.println(node.getValue() +" "+node.isWord);
-
-                }
-                return true;
-            }
-        }else{
-            return this.removeWord(word.substring(1, word.length()));
+        if (word.length() <= 0){
+            return false;
         }
+
+        Character key = word.charAt(0);
+        if (!children.containsKey(key)){
+            return false;
+        }
+
+        TrieNode child = children.get(key);
+        System.out.println(word);
+        if (child.hasChildren() && word.length()== 1){
+            child.setIsWord(false);
+            System.out.println(child.getValue()+ " aqui");
+            return true;
+        }
+
+        children.remove(key);
+
+        return child.removeWord(word.substring(1, word.length()));
+
     }
 }

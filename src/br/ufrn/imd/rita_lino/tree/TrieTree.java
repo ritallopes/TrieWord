@@ -21,8 +21,8 @@ public class TrieTree {
 
     private Boolean insertRoot(String word){
         Character letter = word.charAt(0);
+        TrieNode child = this.root.addChild(letter);
         word = word.substring(1, word.length());
-        TrieNode child = this.root.addChild(new TrieNode(letter));
         return child.insert(word);
     }
 
@@ -59,9 +59,7 @@ public class TrieTree {
     private ArrayList<String> navigateSufix(TrieNode prefixNode) {
         String newPrefix="";
         ArrayList<String> sufixs = new ArrayList<>();
-
         newPrefix += prefixNode.getValue();
-
         if (prefixNode.isWord()){
             sufixs.add(newPrefix);
         }
@@ -69,8 +67,8 @@ public class TrieTree {
         if(!prefixNode.hasChildren()){
             return sufixs;
         }else{
-            for (TrieNode child: prefixNode.getChildren()) {
-                ArrayList<String> sufixsChild = navigateSufix(child);
+            for (Character key : prefixNode.getChildren().keySet()) {
+                ArrayList<String> sufixsChild = navigateSufix(prefixNode.getChildren().get(key));
                 for (String sufix: sufixsChild) {
                     sufixs.add(newPrefix.concat(sufix));
                 }
