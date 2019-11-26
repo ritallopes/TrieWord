@@ -28,11 +28,11 @@ public class TrieTree {
 
 
     public Boolean removeWord(String word){
-        //TODO método de remoção
         if (existWord(word)){
+            this.root.removeWord(word);
             return true;
         }else{
-            return true;
+            return false;
         }
     }
 
@@ -40,16 +40,43 @@ public class TrieTree {
         return this.root.existWord(word);
     }
 
-    //fixme retornar estrutura mais adequada
+    private TrieNode searchNode(String word){
+        return this.root.searchNode(word);
+    }
+
     public ArrayList<String> suggestWord(String prefix){
-        //TODO autocompletar
-        ArrayList<String> words = new ArrayList<>();
-        words.clear();
+        TrieNode prefixNode = this.root.searchNode(prefix);
 
+        ArrayList<String> words = navigateSufix(prefixNode);
 
-
+        for (String word: words) {
+            System.out.println(prefix+word.substring(1, word.length()));
+        }
 
         return words;
+    }
+
+    private ArrayList<String> navigateSufix(TrieNode prefixNode) {
+        String newPrefix="";
+        ArrayList<String> sufixs = new ArrayList<>();
+
+        newPrefix += prefixNode.getValue();
+
+        if (prefixNode.isWord()){
+            sufixs.add(newPrefix);
+        }
+
+        if(!prefixNode.hasChildren()){
+            return sufixs;
+        }else{
+            for (TrieNode child: prefixNode.getChildren()) {
+                ArrayList<String> sufixsChild = navigateSufix(child);
+                for (String sufix: sufixsChild) {
+                    sufixs.add(newPrefix.concat(sufix));
+                }
+            }
+            return sufixs;
+        }
     }
 
 
