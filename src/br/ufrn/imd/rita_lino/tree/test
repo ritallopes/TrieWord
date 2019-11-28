@@ -1,0 +1,30 @@
+cheguei ao fim da palavra?
+    sim:
+       ele tem filhos?
+            sim:
+                isword = false;
+                return false;
+            não:
+               return true;
+    não:
+
+
+        a pŕoxima letra está nos meus filhos?
+            sim:
+                retorno = chama recursão e passa palavra com nova palavra
+                retorno é true
+                    sim:
+                        deserde o filho
+                        eu nao sou palavra e eu não tenho filhos?
+                            sim:
+                                return true;
+                            else:
+                                return false;
+                     não:
+                        return false;
+            não:
+                return false;
+
+
+
+

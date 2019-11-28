@@ -30,6 +30,7 @@ public class Main {
         System.out.println(tree.existWord("a"));
         System.out.println(tree.existWord("amar"));
         System.out.println(tree.existWord("ameixa"));
+        System.out.println(tree.existWord("ama"));
         System.out.println(tree.removeWord("ama"));
         System.out.println(tree.existWord("ama"));
         System.out.println(tree.existWord("a"));
@@ -38,7 +39,10 @@ public class Main {
 
 
 
-        //tree.suggestWord(prefix);
+        ArrayList<String> palavras = tree.suggestWord(prefix);
+        for (String palavra: palavras) {
+            System.out.println(palavra);
+        }
 
 
 //        for (TrieNode node: tree.getRoot().getChildren().get(2).getChildren()

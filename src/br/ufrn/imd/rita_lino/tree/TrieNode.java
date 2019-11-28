@@ -112,28 +112,4 @@ public class TrieNode {
             }
         }
     }
-
-    public boolean removeWord(String word) {
-        if (word.length() <= 0){
-            return false;
-        }
-
-        Character key = word.charAt(0);
-        if (!children.containsKey(key)){
-            return false;
-        }
-
-        TrieNode child = children.get(key);
-        System.out.println(word);
-        if (child.hasChildren() && word.length()== 1){
-            child.setIsWord(false);
-            System.out.println(child.getValue()+ " aqui");
-            return true;
-        }
-
-        children.remove(key);
-
-        return child.removeWord(word.substring(1, word.length()));
-
-    }
 }
