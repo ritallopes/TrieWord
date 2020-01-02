@@ -97,7 +97,7 @@ public class TrieNode {
         if (child == null){
             return null;
         }else {
-            //caso base: ser a última letra, ser a letra que desejo e ser uma palavra
+
             if (word.length() <= 1){
                 if (child.getValue().equals(letter)){
                     return child;

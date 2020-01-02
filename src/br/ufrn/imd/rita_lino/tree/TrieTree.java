@@ -1,6 +1,5 @@
 package br.ufrn.imd.rita_lino.tree;
 
-import sun.text.normalizer.Trie;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +30,7 @@ public class TrieTree {
 
     public boolean removeWord(String word){
         if (existWord(word)){
-            this.removeNode(word, this.root);
+            this.removeNode(word , this.root.getChildren().get(word.charAt(0)));
             return true;
         }else{
             return false;
@@ -78,14 +77,19 @@ public class TrieTree {
 
     public ArrayList<String> suggestWord(String prefix){
         TrieNode prefixNode = this.root.searchNode(prefix);
+        ArrayList<String> words = new ArrayList<>();
+        if (prefixNode ==null){
+            return words;
+        }
 
-        ArrayList<String> words = navigateSufix(prefixNode);
+
+        words = navigateSufix(prefixNode);
+
         int index = 0;
         for (String word: words) {
             words.set(index, prefix + word.substring(1, word.length()));
             index++;
         }
-
         return words;
     }
 

@@ -1,9 +1,9 @@
 package br.ufrn.imd.rita_lino.main;
 
 
-import br.ufrn.imd.rita_lino.tree.TrieNode;
 import br.ufrn.imd.rita_lino.tree.TrieTree;
 import br.ufrn.imd.rita_lino.util.ManipulationFile;
+import br.ufrn.imd.rita_lino.view.ViewTrieWord;
 
 import java.util.ArrayList;
 
@@ -27,31 +27,18 @@ public class Main {
         ArrayList<String> words = file.readWords();
         tree.insertList(words);
 
-        System.out.println(tree.existWord("a"));
-        System.out.println(tree.existWord("amar"));
-        System.out.println(tree.existWord("ameixa"));
-        System.out.println(tree.existWord("ama"));
-        System.out.println(tree.removeWord("ama"));
-        System.out.println(tree.existWord("ama"));
-        System.out.println(tree.existWord("a"));
-        System.out.println(tree.existWord("amar"));
-        System.out.println(tree.existWord("ameixa"));
-
-
 
         ArrayList<String> palavras = tree.suggestWord(prefix);
-        for (String palavra: palavras) {
-            System.out.println(palavra);
+        if (countWord < 1){
+            countWord = palavras.size();
+        }
+        for (int i =0 ; i<countWord; ++i) {
+            System.out.println(palavras.get(i));
         }
 
+        ViewTrieWord view = new ViewTrieWord(tree);
 
-//        for (TrieNode node: tree.getRoot().getChildren().get(2).getChildren()
-//             ) {
-//
-//            System.out.println(node.getValue());
-//            System.out.println(node.isWord());
-//
-//        }
+
 
     }
 }
